@@ -67,12 +67,12 @@ const Footer = () => {
       </div>
 
       {/* Help Bar */}
-      <div className="bg-white px-6 md:px-12 py-[22px] flex items-center justify-between border-b border-[#ede8e2]">
+      <div className="bg-white px-6 md:px-12 py-[22px] flex items-center gap-110 border-b border-[#ede8e2]">
         <h2 className="text-[22px] font-bold tracking-[0.04em] text-[#1a1a1a] uppercase">
           Need Help?
         </h2>
         {/* Help Bar */}
-        <div className="bg-white px-6 md:px-12 py-[22px] flex justify-start! ">
+        <div className="bg-white px-6 md:px-12 py-[22px]">
           <a
             href="#"
             className="flex items-center gap-[12px] no-underline text-[#1a1a1a] text-[18px] font-medium tracking-[0.05em] uppercase"
