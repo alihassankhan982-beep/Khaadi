@@ -1,3 +1,5 @@
+import logo from "../../assets/logo.svg";
+
 const Footer = () => {
   return (
     <div className="font-sans">
@@ -287,7 +289,7 @@ const Footer = () => {
           <div className="flex items-center gap-[6px] shrink-0">
             <img
               className="w-[44px] sm:w-[50.58px]"
-              src="./src/assets/logo.svg"
+              src={logo}
               alt="Logo"
             />
           </div>
