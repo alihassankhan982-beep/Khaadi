@@ -10,7 +10,7 @@ const Header = () => {
         <a href="#" className="flex items-center shrink-0 mr-4 md:mr-10">
           <img
             className="w-[70px] md:w-[80px]"
-            src="./src/assets/logo.png"
+            src="./src/assets/logo.svg"
             alt=""
           />
         </a>

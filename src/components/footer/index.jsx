@@ -287,7 +287,7 @@ const Footer = () => {
           <div className="flex items-center gap-[6px] shrink-0">
             <img
               className="w-[44px] sm:w-[50.58px]"
-              src="./src/assets/logo.png"
+              src="./src/assets/logo.svg"
               alt="Logo"
             />
           </div>
