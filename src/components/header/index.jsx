@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logo from "../../assets/logo.svg";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -8,11 +9,7 @@ const Header = () => {
       <nav className="bg-white flex items-center px-4 md:px-8 h-[68px] border-b border-black/[0.07]">
         {/* Logo */}
         <a href="#" className="flex items-center shrink-0 mr-4 md:mr-10">
-          <img
-            className="w-[70px] md:w-[80px]"
-            src="./src/assets/logo.svg"
-            alt=""
-          />
+          <img className="w-[70px] md:w-[80px]" src={logo} alt="logo" />
         </a>
 
         {/* Nav Links (FIXED) */}
