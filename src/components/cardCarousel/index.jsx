@@ -94,26 +94,34 @@ const ITEMS = [
   },
 ];
 
-const VISIBLE = 5;
 const INTERVAL = 3000;
 const GAP = 10;
 
 // Triple the array so we always have cards ahead and behind
 const EXTENDED = [...ITEMS, ...ITEMS, ...ITEMS];
-const START = ITEMS.length; // start at index 10 (middle copy)
+const START = ITEMS.length;
+
+function getVisible(width) {
+  if (width < 480) return 1;
+  if (width < 640) return 2;
+  if (width < 1024) return 3;
+  return 5;
+}
 
 export default function ClothingCarousel() {
   const trackRef = useRef(null);
   const idxRef = useRef(START);
   const isAnimatingRef = useRef(false);
   const timerRef = useRef(null);
+  const visibleRef = useRef(5);
   const [activeDot, setActiveDot] = useState(0);
 
   function getCardWidth() {
     const track = trackRef.current;
     if (!track) return 0;
-    const totalGap = GAP * (VISIBLE - 1);
-    return (track.parentElement.offsetWidth - totalGap) / VISIBLE;
+    const v = visibleRef.current;
+    const totalGap = GAP * (v - 1);
+    return (track.parentElement.offsetWidth - totalGap) / v;
   }
 
   function moveTo(newIdx, animate) {
@@ -130,25 +138,19 @@ export default function ClothingCarousel() {
   function step(direction) {
     if (isAnimatingRef.current) return;
     isAnimatingRef.current = true;
-
     const next = idxRef.current + direction;
     idxRef.current = next;
     moveTo(next, true);
-
-    // Update dot
-    const dotIdx = (next - START + ITEMS.length * 100) % ITEMS.length;
-    setActiveDot(dotIdx);
-
-    // Restart timer when user manually interacts
+    setActiveDot((next - START + ITEMS.length * 100) % ITEMS.length);
     startTimer();
   }
 
   function handleTransitionEnd() {
     if (idxRef.current >= ITEMS.length * 2) {
-      idxRef.current = idxRef.current - ITEMS.length;
+      idxRef.current -= ITEMS.length;
       moveTo(idxRef.current, false);
     } else if (idxRef.current < ITEMS.length) {
-      idxRef.current = idxRef.current + ITEMS.length;
+      idxRef.current += ITEMS.length;
       moveTo(idxRef.current, false);
     }
     isAnimatingRef.current = false;
@@ -157,9 +159,8 @@ export default function ClothingCarousel() {
   function jumpToDot(i) {
     clearInterval(timerRef.current);
     isAnimatingRef.current = false;
-    const newIdx = START + i;
-    idxRef.current = newIdx;
-    moveTo(newIdx, true);
+    idxRef.current = START + i;
+    moveTo(idxRef.current, true);
     setActiveDot(i);
     startTimer();
   }
@@ -169,38 +170,46 @@ export default function ClothingCarousel() {
     timerRef.current = setInterval(() => step(1), INTERVAL);
   }
 
+  // Update card widths on resize using a ref (no re-render needed)
+  useEffect(() => {
+    function updateLayout() {
+      visibleRef.current = getVisible(window.innerWidth);
+      // Force each card's inline width to update
+      const track = trackRef.current;
+      if (!track) return;
+      const v = visibleRef.current;
+      const totalGap = GAP * (v - 1);
+      const cardW = (track.parentElement.offsetWidth - totalGap) / v;
+      Array.from(track.children).forEach((card) => {
+        card.style.width = `${cardW}px`;
+      });
+      moveTo(idxRef.current, false);
+    }
+
+    updateLayout(); // run on mount
+    window.addEventListener("resize", updateLayout);
+    return () => window.removeEventListener("resize", updateLayout);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     moveTo(START, false);
     startTimer();
     return () => clearInterval(timerRef.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: 1300,
-        margin: "30px auto",
-        padding: "0 40px", // Added padding to make room for arrows on the sides
-        fontFamily: "sans-serif",
-        position: "relative",
-      }}
-    >
+    <div className="w-full max-w-[1300px] mx-auto my-[30px] px-6 sm:px-8 md:px-10 font-sans relative">
       {/* Viewport */}
-      <div style={{ overflow: "hidden", width: "100%" }}>
-        {/* Track */}
+      <div className="overflow-hidden w-full">
+        {/* Track — gap kept as inline style since it's a JS constant */}
         <div
           ref={trackRef}
           onTransitionEnd={handleTransitionEnd}
-          style={{
-            display: "flex",
-            gap: `${GAP}px`,
-            willChange: "transform",
-          }}
+          className="flex will-change-transform"
+          style={{ gap: `${GAP}px` }}
         >
           {EXTENDED.map((item, i) => (
-            <Card key={i} item={item} gap={GAP} visible={VISIBLE} />
+            <Card key={i} item={item} />
           ))}
         </div>
       </div>
@@ -208,67 +217,30 @@ export default function ClothingCarousel() {
       {/* Left Arrow */}
       <button
         onClick={() => step(-1)}
-        style={{
-          position: "absolute",
-          left: -5,
-          top: "40%",
-          transform: "translateY(-50%)",
-          background: "transparent",
-          border: "none",
-          cursor: "pointer",
-          zIndex: 10,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        className="absolute -left-1 top-[40%] -translate-y-1/2 border-none cursor-pointer z-10 flex items-center justify-center bg-transparent"
       >
-        <ChevronLeft strokeWidth={1} size={30} color={"#888"} />
+        <ChevronLeft strokeWidth={1} size={30} color="#888" />
       </button>
 
       {/* Right Arrow */}
       <button
         onClick={() => step(1)}
-        style={{
-          backgroundColor: "white",
-          position: "absolute",
-          right: 0,
-          top: "40%",
-          transform: "translateY(-50%)",
-          background: "transparent",
-          border: "none",
-          cursor: "pointer",
-          zIndex: 10,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        className="absolute right-0 top-[40%] -translate-y-1/2 border-none cursor-pointer z-10 flex items-center justify-center bg-transparent"
       >
-        <ChevronRight strokeWidth={1} size={30} color={"#888"} />
+        <ChevronRight strokeWidth={1} size={30} color="#888" />
       </button>
 
-      {/* Separated Dots */}
+      {/* Dots */}
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 10,
-          marginTop: 40,
-        }}
+        className="flex justify-center items-center mt-10"
+        style={{ gap: 10 }}
       >
         {ITEMS.map((_, i) => (
           <div
             key={i}
             onClick={() => jumpToDot(i)}
-            style={{
-              height: 8,
-              width: 8,
-              borderRadius: "50%",
-              cursor: "pointer",
-              background: i === activeDot ? "#000" : "#d1d5db",
-              transition: "all 0.35s ease",
-              flexShrink: 0,
-            }}
+            className="w-2 h-2 rounded-full cursor-pointer shrink-0 transition-all duration-350 ease-in-out"
+            style={{ background: i === activeDot ? "#000" : "#d1d5db" }}
           />
         ))}
       </div>
@@ -276,130 +248,55 @@ export default function ClothingCarousel() {
   );
 }
 
-// Each card is fully self-contained
-function Card({ item, gap, visible }) {
-  const cardStyle = {
-    flexShrink: 0,
-    width: `calc((100% - ${gap * (visible - 1)}px) / ${visible})`,
-    background: "#fff",
-    cursor: "pointer",
-  };
-
+function Card({ item }) {
+  /*
+    Width is set imperatively by the resize handler in the parent (updateLayout).
+    We start with width:0 and let the useEffect on mount calculate the real value,
+    avoiding any SSR / window-not-defined crash.
+  */
   return (
-    <div style={cardStyle}>
-      {/* Image box */}
+    <div
+      className="shrink-0 bg-white cursor-pointer"
+      style={{ width: 0, minWidth: 0 }} // overwritten by updateLayout on mount
+    >
+      {/* Image — 3:4 ratio via padding-top trick */}
       <div
-        style={{
-          position: "relative",
-          width: "100%",
-          paddingTop: "133%", // 3:4 ratio
-          overflow: "hidden",
-          background: "#f5f5f5",
-        }}
+        className="relative w-full overflow-hidden bg-[#f5f5f5]"
+        style={{ paddingTop: "133%" }}
       >
         <img
           src={item.image}
           alt={item.name}
           loading="lazy"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block",
-          }}
+          className="absolute top-0 left-0 w-full h-full object-cover block"
         />
         {/* Heart */}
-        <div
-          style={{
-            position: "absolute",
-            top: 10,
-            right: 10,
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            background: "rgba(255, 255, 255, 0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 16,
-            cursor: "pointer",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-          }}
-        >
+        <div className="absolute top-[10px] right-[10px] w-9 h-9 rounded-full bg-white/80 flex items-center justify-center cursor-pointer shadow-sm">
           <Heart strokeWidth={1.5} size={20} />
         </div>
       </div>
 
-      {/* Text info */}
-      <div style={{ paddingTop: 10 }}>
-        <p
-          style={{
-            fontSize: 11,
-            color: "#888",
-            margin: "0 0 3px",
-            fontWeight: 400,
-          }}
-        >
+      {/* Text */}
+      <div className="pt-[10px]">
+        <p className="text-[11px] text-[#888] mb-[3px] font-normal">
           {item.type}
         </p>
-        <p
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            margin: "0 0 7px",
-            color: "#111",
-          }}
-        >
+        <p className="text-[15px] font-semibold mb-[7px] text-[#111]">
           {item.name}
         </p>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            marginBottom: 9,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 12,
-              color: "#c0c0c0",
-              textDecoration: "line-through",
-            }}
-          >
+        <div className="flex items-center gap-[10px] mb-[9px]">
+          <span className="text-[12px] text-[#c0c0c0] line-through">
             {item.oldPrice}
           </span>
-          <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
+          <span className="text-[14px] font-bold text-[#111]">
             {item.newPrice}
           </span>
         </div>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          <span
-            style={{
-              background: "#E8442A",
-              color: "#fff",
-              fontSize: 10,
-              fontWeight: 700,
-              padding: "4px 11px",
-              borderRadius: 20,
-            }}
-          >
+        <div className="flex gap-[6px] flex-wrap">
+          <span className="bg-[#E8442A] text-white text-[10px] font-bold px-[11px] py-1 rounded-full">
             50% OFF
           </span>
-          <span
-            style={{
-              background: "#fff4f2",
-              color: "#E8442A",
-              fontSize: 10,
-              fontWeight: 500,
-              padding: "4px 11px",
-              borderRadius: 20,
-              border: "1px solid #fccfc9",
-            }}
-          >
+          <span className="bg-[#fff4f2] text-[#E8442A] text-[10px] font-medium px-[11px] py-1 rounded-full border border-[#fccfc9]">
             Exclusively Online
           </span>
         </div>

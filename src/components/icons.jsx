@@ -17,56 +17,25 @@ function FloatingIcons() {
 
   return (
     <>
-      <style>{`
-        .floating-chat {
-          position: fixed;
-          bottom: 100px;
-          right: 170px;
-          background: #fff;
-          border-radius: 50%;
-          width: 60px;
-          height: 60px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-          cursor: pointer;
-          z-index: 999;
-          transition: transform 0.2s;
-        }
-        .floating-chat:hover { transform: scale(1.05); }
-
-        .floating-arrow {
-          position: fixed;
-          bottom: 20px;
-          right: 25px;
-          background: #fff;
-          border-radius: 50%;
-          width: 60px;
-          height: 60px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-          cursor: pointer;
-          z-index: 999;
-          transition: opacity 0.4s, transform 0.4s;
-          opacity: 0;
-          pointer-events: none;
-          transform: translateY(20px);
-        }
-        .floating-arrow.visible {
-          opacity: 1;
-          pointer-events: auto;
-          transform: translateY(0);
-        }
-      `}</style>
-
       {/* Floating Chat Icon (Always Visible) */}
-      <div className="floating-chat">
+      <div
+        className="
+          fixed z-999 cursor-pointer
+          bottom-[88px] right-4
+          sm:bottom-[100px] sm:right-6
+          md:bottom-[100px] md:right-[170px]
+          w-12 h-12
+          sm:w-14 sm:h-14
+          md:w-[60px] md:h-[60px]
+          bg-white rounded-full
+          flex items-center justify-center
+          shadow-[0_4px_15px_rgba(0,0,0,0.15)]
+          transition-transform duration-200
+          hover:scale-105
+        "
+      >
         <svg
-          width="28"
-          height="28"
+          className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -81,12 +50,28 @@ function FloatingIcons() {
 
       {/* Floating Arrow Icon (Appears after scrolling past hero) */}
       <div
-        className={`floating-arrow ${showArrow ? "visible" : ""}`}
         onClick={scrollToTop}
+        className={`
+          fixed z-999 cursor-pointer
+          bottom-4 right-4
+          sm:bottom-5 sm:right-6
+          md:bottom-5 md:right-[25px]
+          w-12 h-12
+          sm:w-14 sm:h-14
+          md:w-[60px] md:h-[60px]
+          bg-white rounded-full
+          flex items-center justify-center
+          shadow-[0_4px_15px_rgba(0,0,0,0.15)]
+          transition-all duration-400
+          ${
+            showArrow
+              ? "opacity-100 pointer-events-auto translate-y-0"
+              : "opacity-0 pointer-events-none translate-y-5"
+          }
+        `}
       >
         <svg
-          width="28"
-          height="28"
+          className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

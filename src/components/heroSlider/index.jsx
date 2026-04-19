@@ -10,6 +10,33 @@ const SLIDES = [
 const EXTENDED = [...SLIDES, ...SLIDES, ...SLIDES];
 const START = SLIDES.length;
 
+/*
+  Why the extra <style> block?
+  Tailwind's md: breakpoint cannot override an inline style={{ paddingBottom }}
+  because inline styles always win in CSS specificity. Moving the responsive
+  height logic into a real CSS rule lets the media query properly reset
+  padding-bottom to 0 and apply a fixed vh height on larger screens.
+*/
+const sliderStyles = `
+  .hero-slider-viewport {
+    /* Mobile: padding-bottom = (700/1920)*100 mirrors the banner aspect ratio
+       so the full wide image is visible with zero cropping */
+    padding-bottom: 36.45%;
+    height: 0;
+  }
+  @media (min-width: 768px) {
+    .hero-slider-viewport {
+      padding-bottom: 0;
+      height: 65vh;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero-slider-viewport {
+      height: 80vh;
+    }
+  }
+`;
+
 function HeroSlider() {
   const trackRef = useRef(null);
   const idxRef = useRef(START);
@@ -81,7 +108,6 @@ function HeroSlider() {
     timerRef.current = setInterval(advance, 4500);
   }
 
-  // ✅ Empty [] — runs only once on mount, never restarts on re-render
   useEffect(() => {
     moveTo(START, false);
     startTimer();
@@ -89,49 +115,25 @@ function HeroSlider() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      {/* Slider */}
-      <div
-        style={{
-          width: "100%",
-          height: "80vh",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
+    <div className="w-full flex flex-col items-center">
+      <style>{sliderStyles}</style>
+
+      {/* Viewport: height driven by CSS class above, not Tailwind utilities */}
+      <div className="hero-slider-viewport w-full overflow-hidden relative">
+        {/* Track sits absolute so it always fills the viewport's real height */}
         <div
           ref={trackRef}
           onTransitionEnd={handleTransitionEnd}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          style={{
-            display: "flex",
-            width: "100%",
-            height: "100%",
-            willChange: "transform",
-          }}
+          className="absolute inset-0 flex will-change-transform"
         >
           {EXTENDED.map((url, i) => (
-            <div
-              key={i}
-              style={{ minWidth: "100%", height: "100%", flexShrink: 0 }}
-            >
+            <div key={i} className="min-w-full h-full shrink-0">
               <img
                 src={url}
                 alt={`Slide ${i}`}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
+                className="w-full h-full object-cover object-center block"
               />
             </div>
           ))}
@@ -139,28 +141,14 @@ function HeroSlider() {
       </div>
 
       {/* Dots */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: 12,
-          padding: "20px 0",
-        }}
-      >
+      <div className="flex justify-center items-center gap-3 py-5">
         {SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => jumpTo(i)}
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: i === activeDot ? "#000" : "#ccc",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              transition: "background 0.3s",
-            }}
+            className={`w-2 h-2 rounded-full border-none cursor-pointer p-0 transition-colors duration-300 ${
+              i === activeDot ? "bg-black" : "bg-gray-300"
+            }`}
           />
         ))}
       </div>
