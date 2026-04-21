@@ -1,10 +1,11 @@
 import React from "react";
 import logo from "../../assets/logo.svg";
 
-const HeroBanner = ({ img }) => {
+const HeroBanner = ({ img, img2 }) => {
   return (
     <div className="relative">
-      <img className="object-cover w-full h-auto" src={img} alt="" />
+      <img className="object-cover w-full h-auto hidden sm:block" src={img} alt="" />
+      <img className="object-cover w-full h-auto sm:hidden" src={img2} alt="" />
 
       {/* Logo overlay — mobile only */}
       <div className="lg:hidden fixed top-3 left-1/2 -translate-x-1/2 z-50">
