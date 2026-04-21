@@ -1,2 +1,7 @@
 @import "tailwindcss";
 
+* {
+    font-family: Khaadi,
+        Arial,
+        "helvetica neue";
+}

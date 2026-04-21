@@ -6,7 +6,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div className="sticky top-0 z-50">
       <nav className="hidden lg:flex items-center bg-white px-4 md:px-8 h-[68px] border-b border-black/[0.07]">
         {/* Logo */}
         <a href="#" className="flex items-center shrink-0 mr-4 md:mr-10">
@@ -17,7 +17,7 @@ const Header = () => {
           <li>
             <a
               href="#"
-              className="px-[18px] text-[13px] uppercase text-[#e06b3a] h-[68px] leading-[68px] hover:opacity-75"
+              className="px-[18px] text-[14px] uppercase text-[#e06b3a] h-[68px] leading-[68px] hover:opacity-75"
             >
               Sale
             </a>
@@ -25,7 +25,7 @@ const Header = () => {
           <li>
             <a
               href="#"
-              className="px-[18px] text-[13px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
+              className="px-[18px] text-[14px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
             >
               Ready to Wear
             </a>
@@ -33,7 +33,7 @@ const Header = () => {
           <li>
             <a
               href="#"
-              className="px-[18px] text-[13px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
+              className="px-[18px] text-[14px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
             >
               Fabrics
             </a>
@@ -41,7 +41,7 @@ const Header = () => {
           <li>
             <a
               href="#"
-              className="px-[18px] text-[13px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
+              className="px-[18px] text-[14px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
             >
               Fragrances
             </a>
@@ -49,7 +49,7 @@ const Header = () => {
           <li>
             <a
               href="#"
-              className="font-bold px-[18px] text-[13px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
+              className="font-bold px-[18px] text-[14px] uppercase text-[#1a1a1a] h-[68px] leading-[68px] hover:opacity-75"
             >
               Now Happening
             </a>
