@@ -102,10 +102,9 @@ const EXTENDED = [...ITEMS, ...ITEMS, ...ITEMS];
 const START = ITEMS.length;
 
 function getVisible(width) {
-  if (width < 480) return 1;
-  if (width < 640) return 2;
-  if (width < 1024) return 3;
-  return 5;
+  if (width < 640) return 2; // 320, 375, 425px → 2 cards
+  if (width < 1024) return 3; // 768px → 3 cards
+  return 5; // 1024px+ → 5 cards
 }
 
 export default function ClothingCarousel() {

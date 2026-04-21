@@ -1,15 +1,14 @@
-import React from "react";
+import React from 'react'
 
-const Image = () => {
+const image = ({img}) => {
   return (
     <div>
-      <img
-        className="object-cover w-full h-full"
-        src="https://pk.khaadi.com/dw/image/v2/BJTG_PRD/on/demandware.static/-/Library-Sites-KhaadiSharedLibrary/default/dwec94270f/0.0-0.0-0.0-0.0-0.0-0.0-0.025-2-26-TopPicksDesktop675x1920-uae.jpg"
-        alt=""
+      <img className="object-cover w-full h-auto"
+      src={img}
+      alt=""
       />
     </div>
-  );
-};
+  )
+}
 
-export default Image;
+export default image

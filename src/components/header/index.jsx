@@ -1,12 +1,13 @@
 import { useState } from "react";
 import logo from "../../assets/logo.svg";
 
+
 const Header = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <div>
-      <nav className="bg-white flex items-center px-4 md:px-8 h-[68px] border-b border-black/[0.07]">
+      <nav className="hidden lg:flex items-center bg-white px-4 md:px-8 h-[68px] border-b border-black/[0.07]">
         {/* Logo */}
         <a href="#" className="flex items-center shrink-0 mr-4 md:mr-10">
           <img className="w-[70px] md:w-[80px]" src={logo} alt="logo" />
@@ -108,7 +109,6 @@ const Header = () => {
           </button>
         </div>
       </nav>
-
       {/* Mobile Menu */}
       <div
         className={`lg:hidden ${open ? "block" : "hidden"} bg-white border-b`}
@@ -130,6 +130,90 @@ const Header = () => {
             <a href="#">Now Happening</a>
           </li>
         </ul>
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 flex items-center justify-around px-2 py-2 lg:hidden">
+        {/* Menu */}
+        <button className="flex flex-col items-center gap-1 text-[#1a1a1a] min-w-[48px]">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.3"
+          >
+            <line x1="3" y1="6" x2="10" y2="6" />
+            <circle cx="13.5" cy="6" r="1.5" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+          <span className="text-[10px] tracking-wide">Menu</span>
+        </button>
+
+        {/* Bag */}
+        <button className="flex flex-col items-center gap-1 text-[#1a1a1a] min-w-[48px]">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.3"
+          >
+            <path d="M6 2 L4 22 L20 22 L18 2 Z" strokeLinejoin="round" />
+            <path d="M9 2 C9 2 9 6 12 6 C15 6 15 2 15 2" />
+          </svg>
+          <span className="text-[10px] tracking-wide">Bag</span>
+        </button>
+
+        {/* Home */}
+        <button className="flex flex-col items-center gap-1 text-[#1a1a1a] min-w-[48px]">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.3"
+          >
+            <path d="M3 12 L12 4 L21 12" strokeLinejoin="round" />
+            <rect x="5" y="12" width="14" height="10" rx="1" />
+            <rect x="9" y="16" width="6" height="6" />
+          </svg>
+          <span className="text-[10px] tracking-wide">Home</span>
+        </button>
+
+        {/* Search */}
+        <button className="flex flex-col items-center gap-1 text-[#1a1a1a] min-w-[48px]">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.3"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+          </svg>
+          <span className="text-[10px] tracking-wide">Search</span>
+        </button>
+
+        {/* Account */}
+        <button className="flex flex-col items-center gap-1 text-[#1a1a1a] min-w-[48px]">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.3"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20 C4 16 8 13 12 13 C16 13 20 16 20 20" />
+          </svg>
+          <span className="text-[10px] tracking-wide">Account</span>
+        </button>
       </div>
     </div>
   );

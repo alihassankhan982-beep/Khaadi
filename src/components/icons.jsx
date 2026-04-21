@@ -54,8 +54,8 @@ function FloatingIcons() {
         className={`
           fixed z-999 cursor-pointer
           bottom-4 right-4
-          sm:bottom-5 sm:right-6
-          md:bottom-5 md:right-[25px]
+          sm:bottom-16 sm:right-6
+          md:bottom-16 md:right-[25px]
           w-12 h-12
           sm:w-14 sm:h-14
           md:w-[60px] md:h-[60px]

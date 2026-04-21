@@ -2,8 +2,8 @@ import React from "react";
 
 const AnnouncementBar = () => {
   return (
-    <div>
-      <div className="flex flex-col md:flex-row items-center justify-between bg-[#b8cdd6] px-[16px] md:px-[32px] py-[9px] text-[13px] tracking-[0.02em] text-[#1a1a1a]">
+    <div className="hidden lg:block">
+      <div className="flex flex-col md:flex-row items-center justify-between bg-[#fe92aa] px-[16px] md:px-[32px] py-[9px] text-[13px] tracking-[0.02em] text-[#1a1a1a]">
         {/* Text */}
         <div className="flex-1 text-center">
           Explore new styles designed for brighter days{" "}
