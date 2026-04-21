@@ -12,7 +12,6 @@ const Header = () => {
         <a href="#" className="flex items-center shrink-0 mr-4 md:mr-10">
           <img className="w-[70px] md:w-[80px]" src={logo} alt="logo" />
         </a>
-
         {/* Nav Links (FIXED) */}
         <ul className="hidden lg:flex items-center justify-center flex-1 list-none">
           <li>

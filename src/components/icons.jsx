@@ -21,7 +21,7 @@ function FloatingIcons() {
       <div
         className="
           fixed z-999 cursor-pointer
-          bottom-[88px] right-4
+          bottom-36 right-4
           sm:bottom-[100px] sm:right-6
           md:bottom-[100px] md:right-[170px]
           w-12 h-12
@@ -53,7 +53,7 @@ function FloatingIcons() {
         onClick={scrollToTop}
         className={`
           fixed z-999 cursor-pointer
-          bottom-4 right-4
+          bottom-20 right-4
           sm:bottom-16 sm:right-6
           md:bottom-16 md:right-[25px]
           w-12 h-12

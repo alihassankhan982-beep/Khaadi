@@ -2,7 +2,7 @@ import logo from "../../assets/logo.svg";
 
 const Footer = () => {
   return (
-    <div className="font-sans">
+    <div className="font-sans pb-16 lg:pb-0">
       {/* Footer Info Bar */}
       <div className="bg-[#fdf6f0] border-t border-b border-[#ede8e2] grid grid-cols-1 sm:grid-cols-3 px-4 sm:px-6 md:px-12 py-5">
         <div className="flex items-center gap-4 px-4 sm:px-6 py-3 sm:py-2 border-b sm:border-b-0 sm:border-r border-[#e5ddd5] sm:first:pl-0 last:border-b-0 sm:last:border-r-0">
@@ -287,11 +287,7 @@ const Footer = () => {
         {/* Logo + Copyright */}
         <div className="flex items-center gap-[20px] sm:gap-[30px]">
           <div className="flex items-center gap-[6px] shrink-0">
-            <img
-              className="w-[44px] sm:w-[50.58px]"
-              src={logo}
-              alt="Logo"
-            />
+            <img className="w-[44px] sm:w-[50.58px]" src={logo} alt="Logo" />
           </div>
           <p className="text-[11px] text-[#888] leading-[1.6] m-0">
             Copyright &copy; 2026 Weaves Corporation Limited.
